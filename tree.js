@@ -267,6 +267,38 @@ class BinaryTree{
         return Math.abs(this.height(node.left) - this.height(node.right)) <= 1 && this.balancedTree(node.left) && this.balancedTree(node.right);
       }
 
+      preorder(){
+        preorderPr(this.root);
+      }
+
+
+      preorderPr(node){
+        if(!node){
+            return;
+        }
+        console.log(node.value);
+        this.preorderPr(node.left)
+        this.preorderPr(node.right)
+      }
+
+      inorderPr(node){
+        if(!node){
+            return;
+        }
+        this.preorderPr(node.left)
+        console.log(node.value);
+        this.preorderPr(node.right)
+      }
+
+      postorderPr(node){
+        if(!node){
+            return;
+        }
+        this.preorderPr(node.left)
+        this.preorderPr(node.right)
+        console.log(node.value);
+      }
+      
     
 }
 
