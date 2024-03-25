@@ -34,8 +34,8 @@ class Node{
 
 // DFS :
 // Preorder : Root -> Left -> Child
-// Inorder : Left -> current -> right
-// Postorder : Left -> Right -> Current 
+// Inorder : Left -> root -> right
+// Postorder : Left -> Right -> root 
 
 // BFS
 // level order traversal
@@ -134,6 +134,144 @@ console.log(levelOrderTraversal(root))
 
 // Time complexity : O(n)
 // space Complexity : O(n)
+
+class BinarySearchTree{
+    constructor(){
+        this.root = null;
+    }
+
+    insert(value){
+        const newNode = new Node(value);
+        if(this.root === null){
+            this.root = newNode;
+        }else{
+            this._insertNode(this.root, newNode);
+        }
+    }
+
+    _insertNode(node,newNode){
+        if(newNode.val > node.val){
+            if(node.right === null){
+                node.right = newNode;
+            }else{
+                this._insertNode(node.right, newNode);
+            }
+        } else if(newNode.val < node.val) {
+            if(node.left === null){
+                node.left = newNode;
+            }else{
+                this._insertNode(node.left,newNode);
+            }
+        }
+    }
+
+    search(value){
+        return this._searchNode(this.root, value);
+    }
+
+    _searchNode(node, value){
+        if(node === null){
+            return false;
+        }
+
+        if(value > node.val){
+            return this._searchNode(node.right, value);
+        }else if(node.val > value){
+            return this._searchNode(node.left, value);
+        } else{
+            return true;
+        }
+    }
+
+    delete(val){
+        this.root = this._deleteNode(val);
+    }
+
+    _deleteNode(node,value){
+        if(node === null){
+            return null;
+        } else if(value < node.val){
+            node.left = this._deleteNode(node.left,value);
+        } else if (value > node.val){
+            node.right = this._deleteNode(node.right,value);
+        }else{
+            if(node.left === null){
+                return node.right;
+            } else if(node.right === null){
+                return node.left;
+            }
+
+            const minRightNode = this.findMinNode(node.right);
+            node.value = minRightNode.val;
+            node.right = this._deleteNode(node.right, minRightNode.val);
+        }
+
+        return node;
+    }
+
+    findMinNode(node) {
+        while (node.left !== null) {
+          node = node.left;
+        }
+        return node;
+      }
+
+      inorder(root){
+        if(root){
+            this.inorder(root.left)
+            console.log(root.val)
+            this.inorder(root.right)
+        }
+      }
+
+      preorder(root){
+        if(root){
+            console.log(root.val)
+            this.preorder(root.left)
+            this.preorder(root.right)
+        }
+      }
+
+      postorder(root){
+        if(root){
+            this.postorder(root.left)
+            this.postorder(root.right)
+            console.log(root.val)
+        }
+      }
+}
+
+const tree = new BinarySearchTree();
+tree.insert(10);
+tree.insert(5);
+tree.insert(15);
+tree.insert(3);
+tree.insert(7);
+tree.insert(12);
+tree.insert(18);
+
+// console.log(JSON.stringify(tree.root))
+console.log(tree.search(181))
+console.log("------------------------------------------")
+tree.inorder(tree.root);
+console.log("------------------------------------------")
+tree.preorder(tree.root);
+console.log("------------------------------------------")
+tree.postorder(tree.root);
+
+
+// example of Inorder, PreOrder and  PostOrder
+
+//       22
+//     /   \
+//   12     30
+//   / \     /  \
+//  8   20   25  40
+
+
+// inorder (Left Current Right) : 8 -> 12 -> 20 -> 22 -> 25 -> 30 -> 40
+// preorder : (Root -> Left -> Right)  22 -> 12 -> 8 -> 20 -> 30 -> 25 -> 40
+// Postorer : (Left -> Right -> Current) 8 -> 20 -> 12 -> 25 -> 40 > 30 -> 22
 
 
 
